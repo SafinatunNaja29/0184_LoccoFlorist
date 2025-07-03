@@ -107,6 +107,73 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
+                const SpaceHeight(50),
+                BlocConsumer<RegisterBloc, RegisterState>(
+                  listener: (context, state) {
+                    if (state is RegisterSuccess) {
+                      context.pushAndRemoveUntil(
+                        const LoginScreen(),
+                        (route) => false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
+                    } else if (state is RegisterFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.error),
+                          backgroundColor: AppColors.red,
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return AppButton.filled(
+                      onPressed: state is RegisterLoading
+                          ? null
+                          : () {
+                              if (_key.currentState!.validate()) {
+                                final request = RegisterRequestModel(
+                                  namaUser: namaController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  idRole: 2, // default customer
+                                );
+                                context.read<RegisterBloc>().add(
+                                  RegisterRequested(requestModel: request),
+                                );
+                              }
+                            },
+                      label: state is RegisterLoading ? 'Memuat...' : 'Daftar',
+                    );
+                  },
+                ),
+                const SpaceHeight(20),
+                Text.rich(
+                  TextSpan(
+                    text: 'Sudah memiliki akun? Silahkan ',
+                    style: TextStyle(
+                      color: AppColors.grey,
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'Login disini!',
+                        style: TextStyle(color: AppColors.pinkFanta),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.pushAndRemoveUntil(
+                              const LoginScreen(),
+                              (route) => false,
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
