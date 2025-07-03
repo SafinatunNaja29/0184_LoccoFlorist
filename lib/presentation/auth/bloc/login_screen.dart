@@ -92,7 +92,73 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Icons.visibility_off,
                       color: AppColors.grey,
                     ),
-                 
+                  ),
+                ),
+                const SpaceHeight(30),
+                BlocConsumer<LoginBloc, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.error)),
+                      );
+                    } else if (state is LoginSuccess) {
+                      final role = state.responseModel.user?.role?.toLowerCase();
+                      if (role == 'admin') {
+                        context.pushAndRemoveUntil(
+                          const AdminHomeScreen(),
+                          (route) => false,
+                        );
+                      } else if (role == 'customer') {
+                        context.pushAndRemoveUntil(
+                          const CustomerHomeScreen(),
+                          (route) => false,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Role tidak dikenali')),
+                        );
+                      }
+                    }
+                  },
+                  builder: (context, state) {
+                    return AppButton.filled(
+                      onPressed: state is LoginLoading
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                final request = LoginRequestModel(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                                context.read<LoginBloc>().add(
+                                  LoginRequested(requestModel: request),
+                                );
+                              }
+                            },
+                      label: state is LoginLoading ? 'Memuat...' : 'Masuk',
+                    );
+                  },
+                ),
+                const SpaceHeight(20),
+                Text.rich(
+                  TextSpan(
+                    text: 'Belum punya akun? ',
+                    style: TextStyle(
+                      color: AppColors.grey,
+                      fontSize: context.deviceWidth * 0.035,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'Daftar di sini!',
+                        style: TextStyle(
+                          color: AppColors.pinkFanta,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.push(const RegisterScreen());
+                          },
+                      ),
+                    ],
                   ),
                 ),
               ],
