@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:loccoproject/data/model/produk_model.dart'; // pastikan path sesuai struktur project kamu
 
 class ProdukResponseModel {
   final int? idProduk;
@@ -38,10 +39,10 @@ class ProdukResponseModel {
         gambarProduk: json["gambar_produk"],
         idKategori: json["id_kategori"],
         produkCreatedAt: json["produk_created_at"] != null
-            ? DateTime.parse(json["produk_created_at"])
+            ? DateTime.tryParse(json["produk_created_at"])
             : null,
         produkUpdatedAt: json["produk_updated_at"] != null
-            ? DateTime.parse(json["produk_updated_at"])
+            ? DateTime.tryParse(json["produk_updated_at"])
             : null,
       );
 
@@ -56,4 +57,18 @@ class ProdukResponseModel {
         "produk_created_at": produkCreatedAt?.toIso8601String(),
         "produk_updated_at": produkUpdatedAt?.toIso8601String(),
       };
+
+  factory ProdukResponseModel.fromProduk(Produk produk) {
+    return ProdukResponseModel(
+      idProduk: produk.idProduk,
+      namaProduk: produk.namaProduk,
+      deskripsiProduk: produk.deskripsiProduk,
+      hargaProduk: produk.hargaProduk,
+      stokProduk: produk.stokProduk,
+      gambarProduk: produk.gambarProduk,
+      idKategori: produk.idKategori,
+      produkCreatedAt: produk.produkCreatedAt,
+      produkUpdatedAt: produk.produkUpdatedAt,
+    );
+  }
 }
