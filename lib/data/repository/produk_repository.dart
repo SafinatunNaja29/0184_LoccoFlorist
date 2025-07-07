@@ -3,9 +3,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:loccoproject/data/model/request/produk_request_model.dart';
-import 'package:loccoproject/data/model/response/produk_response_model.dart';
 import 'package:loccoproject/service/service_http_client.dart';
-import 'package:http/http.dart' as http;
 import '../model/produk_model.dart';
 
 

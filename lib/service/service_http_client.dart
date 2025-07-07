@@ -80,4 +80,24 @@ class ServiceHttpClient {
       throw Exception("POST with token request failed: $e");
     }
   }
+
+  Future<http.Response> delete(String endPoint) async {
+  final token = await secureStorage.read(key: "authToken");
+  final url = Uri.parse("$baseUrl$endPoint");
+
+  try {
+    final response = await http.delete(
+      url,
+      headers: {
+        if (token != null) 'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    );
+    return response;
+  } catch (e) {
+    throw Exception("DELETE request failed: $e");
+  }
+}
+
 }
