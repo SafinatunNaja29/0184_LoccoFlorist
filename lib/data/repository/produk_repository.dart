@@ -50,5 +50,59 @@ class ProdukRepository {
     }
   }
 
-  
+  Future<Either<String, String>> createProduk(ProdukRequestModel request) async {
+    try {
+      final response =
+          await _serviceHttpClient.postWithToken("api/produk", request.toMap());
+
+      final jsonResponse = json.decode(response.body);
+      if (response.statusCode == 201) {
+        return Right(jsonResponse['message'] ?? "Produk berhasil ditambahkan");
+      } else {
+        return Left(jsonResponse['message'] ?? "Gagal menambahkan produk");
+      }
+    } catch (e) {
+      log("Error createProduk: $e");
+      return Left("Terjadi kesalahan saat menambahkan produk.");
+    }
+  }
+
+  Future<Either<String, String>> updateProduk(
+    int id,
+    ProdukRequestModel request,
+  ) async {
+    try {
+      final response = await _serviceHttpClient.postWithToken(
+        "api/produk/$id",
+        request.toMap(),
+      );
+
+      final jsonResponse = json.decode(response.body);
+      if (response.statusCode == 200) {
+        return Right(jsonResponse['message'] ?? "Produk berhasil diupdate");
+      } else {
+        return Left(jsonResponse['message'] ?? "Gagal mengupdate produk");
+      }
+    } catch (e) {
+      log("Error updateProduk: $e");
+      return Left("Terjadi kesalahan saat mengupdate produk.");
+    }
+  }
+
+  Future<Either<String, String>> deleteProduk(int id) async {
+    try {
+      final url = "api/produk/$id";
+      final response = await _serviceHttpClient.delete(url);
+
+      final jsonResponse = json.decode(response.body);
+      if (response.statusCode == 200) {
+        return Right(jsonResponse['message'] ?? "Produk berhasil dihapus");
+      } else {
+        return Left(jsonResponse['message'] ?? "Gagal menghapus produk");
+      }
+    } catch (e) {
+      log("Error deleteProduk: $e");
+      return Left("Terjadi kesalahan saat menghapus produk.");
+    }
+  }
 }
