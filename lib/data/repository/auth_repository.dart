@@ -3,25 +3,25 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dartz/dartz.dart';
+import 'package:loccoproject/service/service_http_client.dart';
 
 import '../model/request/login_request_model.dart';
 import '../model/request/register_request_model.dart';
 import '../model/response/auth_response_model.dart';
 
 class AuthRepository {
+  final ServiceHttpClient _serviceHttpClient;
   final secureStorage = FlutterSecureStorage();
-  final String _baseUrl = 'http://10.0.2.2:3000/api/auth'; // ganti jika real device
+
+  AuthRepository(this._serviceHttpClient);
 
   Future<Either<String, AuthResponseModel>> login(
     LoginRequestModel requestModel,
   ) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/login'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: requestModel.toJson(),
+      final response = await _serviceHttpClient.post(
+        "api/auth/login",
+        requestModel.toMap(), 
       );
 
       final jsonResponse = json.decode(response.body);
@@ -29,7 +29,7 @@ class AuthRepository {
       if (response.statusCode == 200) {
         final loginResponse = AuthResponseModel.fromMap(jsonResponse);
 
-        // simpan token dan role
+        // Simpan token dan role
         await secureStorage.write(
           key: "authToken",
           value: loginResponse.user?.token,
@@ -55,12 +55,9 @@ class AuthRepository {
     RegisterRequestModel requestModel,
   ) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/register'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: requestModel.toJson(),
+      final response = await _serviceHttpClient.post(
+        "api/auth/register",
+        requestModel.toMap(),
       );
 
       final jsonResponse = json.decode(response.body);
