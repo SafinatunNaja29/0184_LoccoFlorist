@@ -34,7 +34,7 @@ class _ProdukCreateScreenState extends State<ProdukCreateScreen> {
 
       context.read<ProdukBloc>().add(CreateProduk(produk: produkRequest));
 
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 
