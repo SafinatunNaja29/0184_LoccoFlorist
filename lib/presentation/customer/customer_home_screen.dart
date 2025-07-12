@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loccoproject/data/model/response/produk_response_model.dart';
 import 'package:loccoproject/presentation/auth/bloc/produk/produk_bloc.dart';
 import 'package:loccoproject/presentation/produk/produk_detail_screen.dart';
 
