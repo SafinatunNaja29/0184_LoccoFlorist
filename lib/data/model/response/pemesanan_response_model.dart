@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class PemesananResponseModel {
   final int? idPemesanan;
   final int? idProduk;
@@ -6,8 +8,8 @@ class PemesananResponseModel {
   final int? totalHarga;
   final String? lokasiPengantaran;
   final String? buktiFoto;
-  final String? pemesananCreatedAt;
-  final String? pemesananUpdatedAt;
+  final DateTime? pemesananCreatedAt;
+  final DateTime? pemesananUpdatedAt;
   final Produk? produk;
   final User? user;
 
@@ -25,7 +27,12 @@ class PemesananResponseModel {
     this.user,
   });
 
-  factory PemesananResponseModel.fromJson(Map<String, dynamic> json) {
+  factory PemesananResponseModel.fromJson(String str) =>
+      PemesananResponseModel.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory PemesananResponseModel.fromMap(Map<String, dynamic> json) {
     return PemesananResponseModel(
       idPemesanan: json['id_pemesanan'],
       idProduk: json['id_produk'],
@@ -34,12 +41,31 @@ class PemesananResponseModel {
       totalHarga: json['total_harga'],
       lokasiPengantaran: json['lokasi_pengantaran'],
       buktiFoto: json['bukti_foto'],
-      pemesananCreatedAt: json['pemesanan_created_at'],
-      pemesananUpdatedAt: json['pemesanan_updated_at'],
-      produk: json['produk'] != null ? Produk.fromJson(json['produk']) : null,
-      user: json['user'] != null ? User.fromJson(json['user']) : null,
+      pemesananCreatedAt: json['pemesanan_created_at'] != null
+          ? DateTime.tryParse(json['pemesanan_created_at'])
+          : null,
+      pemesananUpdatedAt: json['pemesanan_updated_at'] != null
+          ? DateTime.tryParse(json['pemesanan_updated_at'])
+          : null,
+      produk:
+          json['produk'] != null ? Produk.fromMap(json['produk']) : null,
+      user: json['user'] != null ? User.fromMap(json['user']) : null,
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        "id_pemesanan": idPemesanan,
+        "id_produk": idProduk,
+        "id_user": idUser,
+        "status_pemesanan": statusPemesanan,
+        "total_harga": totalHarga,
+        "lokasi_pengantaran": lokasiPengantaran,
+        "bukti_foto": buktiFoto,
+        "pemesanan_created_at": pemesananCreatedAt?.toIso8601String(),
+        "pemesanan_updated_at": pemesananUpdatedAt?.toIso8601String(),
+        "produk": produk?.toMap(),
+        "user": user?.toMap(),
+      };
 }
 
 class Produk {
@@ -61,17 +87,25 @@ class Produk {
     this.idKategori,
   });
 
-  factory Produk.fromJson(Map<String, dynamic> json) {
-    return Produk(
-      idProduk: json['id_produk'],
-      namaProduk: json['nama_produk'],
-      deskripsiProduk: json['deskripsi_produk'],
-      hargaProduk: json['harga_produk'],
-      stokProduk: json['stok_produk'],
-      gambarProduk: json['gambar_produk'],
-      idKategori: json['id_kategori'],
-    );
-  }
+  factory Produk.fromMap(Map<String, dynamic> json) => Produk(
+        idProduk: json['id_produk'],
+        namaProduk: json['nama_produk'],
+        deskripsiProduk: json['deskripsi_produk'],
+        hargaProduk: json['harga_produk'],
+        stokProduk: json['stok_produk'],
+        gambarProduk: json['gambar_produk'],
+        idKategori: json['id_kategori'],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id_produk": idProduk,
+        "nama_produk": namaProduk,
+        "deskripsi_produk": deskripsiProduk,
+        "harga_produk": hargaProduk,
+        "stok_produk": stokProduk,
+        "gambar_produk": gambarProduk,
+        "id_kategori": idKategori,
+      };
 }
 
 class User {
@@ -85,11 +119,15 @@ class User {
     this.email,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      idUser: json['id_user'],
-      nama: json['nama'],
-      email: json['email'],
-    );
-  }
+  factory User.fromMap(Map<String, dynamic> json) => User(
+        idUser: json['id_user'],
+        nama: json['nama'],
+        email: json['email'],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id_user": idUser,
+        "nama": nama,
+        "email": email,
+      };
 }
