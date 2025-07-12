@@ -10,6 +10,7 @@ class PemesananResponseModel {
   final String? buktiFoto;
   final DateTime? pemesananCreatedAt;
   final DateTime? pemesananUpdatedAt;
+  final int? jumlahProduk;
   final Produk? produk;
   final User? user;
 
@@ -23,6 +24,7 @@ class PemesananResponseModel {
     this.buktiFoto,
     this.pemesananCreatedAt,
     this.pemesananUpdatedAt,
+    this.jumlahProduk,
     this.produk,
     this.user,
   });
@@ -47,8 +49,8 @@ class PemesananResponseModel {
       pemesananUpdatedAt: json['pemesanan_updated_at'] != null
           ? DateTime.tryParse(json['pemesanan_updated_at'])
           : null,
-      produk:
-          json['produk'] != null ? Produk.fromMap(json['produk']) : null,
+      jumlahProduk: json['jumlah_produk'],
+      produk: json['produk'] != null ? Produk.fromMap(json['produk']) : null,
       user: json['user'] != null ? User.fromMap(json['user']) : null,
     );
   }
@@ -63,6 +65,7 @@ class PemesananResponseModel {
         "bukti_foto": buktiFoto,
         "pemesanan_created_at": pemesananCreatedAt?.toIso8601String(),
         "pemesanan_updated_at": pemesananUpdatedAt?.toIso8601String(),
+        "jumlah_produk": jumlahProduk,
         "produk": produk?.toMap(),
         "user": user?.toMap(),
       };
