@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loccoproject/data/repository/auth_repository.dart';
 import 'package:loccoproject/data/repository/produk_repository.dart';
+import 'package:loccoproject/data/repository/pemesanan_repository.dart';
 import 'package:loccoproject/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/produk/produk_bloc.dart';
+import 'package:loccoproject/presentation/auth/bloc/pemesanan/pemesanan_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/login_screen.dart';
 import 'package:loccoproject/service/service_http_client.dart';
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
     final serviceHttpClient = ServiceHttpClient();
     final authRepository = AuthRepository(serviceHttpClient);
     final produkRepository = ProdukRepository(serviceHttpClient);
+    final pemesananRepository = PemesananRepository(baseUrl: serviceHttpClient.baseUrl);
 
     return MultiBlocProvider(
       providers: [
@@ -31,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ProdukBloc>(
           create: (_) => ProdukBloc(produkRepository: produkRepository)..add(GetAllProduk()),
+        ),
+        BlocProvider<PemesananBloc>(
+          create: (_) => PemesananBloc(pemesananRepository: pemesananRepository)..add(GetAllPemesanan()),
         ),
       ],
       child: MaterialApp(
