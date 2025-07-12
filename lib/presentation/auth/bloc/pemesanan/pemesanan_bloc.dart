@@ -10,6 +10,7 @@ class PemesananBloc extends Bloc<PemesananEvent, PemesananState> {
 
   PemesananBloc({required this.pemesananRepository}) : super(PemesananInitial()) {
     on<GetAllPemesanan>(_onGetAllPemesanan);
+    on<UpdateStatusPemesanan>(_onUpdateStatusPemesanan);
   }
 
   Future<void> _onGetAllPemesanan(GetAllPemesanan event, Emitter<PemesananState> emit) async {
@@ -22,5 +23,17 @@ class PemesananBloc extends Bloc<PemesananEvent, PemesananState> {
     }
   }
 
-
+  Future<void> _onUpdateStatusPemesanan(UpdateStatusPemesanan event, Emitter<PemesananState> emit) async {
+  emit(PemesananLoading());
+  try {
+    await pemesananRepository.updateStatus(
+      idPemesanan: event.id,
+      status: event.status,
+      buktiFoto: event.buktiFoto,
+    );
+    add(GetAllPemesanan());
+  } catch (e) {
+    emit(PemesananError(error: e.toString()));
+  }
+}
 }
