@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loccoproject/presentation/auth/bloc/pemesanan/pemesanan_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/produk_screen.dart';
+import 'package:loccoproject/presentation/admin/riwayat_penjualan_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -19,7 +20,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final List<Widget> _pages = const [
     HomeDashboard(),
     ProdukScreen(),
-    Center(child: Text("Riwayat")),
+    RiwayatPenjualanScreen(),
     Center(child: Text("Profil")),
   ];
 
