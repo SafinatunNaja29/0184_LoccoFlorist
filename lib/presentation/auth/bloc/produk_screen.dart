@@ -26,7 +26,18 @@ class _ProdukScreenState extends State<ProdukScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Manajemen Produk")),
+      appBar: AppBar(
+        title: const Text("Manajemen Produk"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu),
+            tooltip: "Kelola Kategori",
+            onPressed: () {
+              Navigator.pushNamed(context, "/kategori");
+            },
+          ),
+        ],
+      ),
       body: BlocBuilder<ProdukBloc, ProdukState>(
         builder: (context, state) {
           if (state is ProdukLoading) {
