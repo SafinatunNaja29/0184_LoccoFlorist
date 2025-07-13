@@ -35,12 +35,16 @@ class PemesananResponseModel {
   String toJson() => json.encode(toMap());
 
   factory PemesananResponseModel.fromMap(Map<String, dynamic> json) {
+    print('Pemesanan JSON: $json');
+    print('Produk JSON: ${json['produk']}');
+    print('User JSON: ${json['user']}');
+
     return PemesananResponseModel(
-      idPemesanan: json['id_pemesanan'],
-      idProduk: json['id_produk'],
-      idUser: json['id_user'],
+      idPemesanan: int.tryParse(json['id_pemesanan'].toString()),
+      idProduk: int.tryParse(json['id_produk'].toString()),
+      idUser: int.tryParse(json['id_user'].toString()),
       statusPemesanan: json['status_pemesanan'],
-      totalHarga: json['total_harga'],
+      totalHarga: int.tryParse(json['total_harga'].toString()),
       lokasiPengantaran: json['lokasi_pengantaran'],
       buktiFoto: json['bukti_foto'],
       pemesananCreatedAt: json['pemesanan_created_at'] != null
@@ -49,7 +53,7 @@ class PemesananResponseModel {
       pemesananUpdatedAt: json['pemesanan_updated_at'] != null
           ? DateTime.tryParse(json['pemesanan_updated_at'])
           : null,
-      jumlahProduk: json['jumlah_produk'],
+      jumlahProduk: int.tryParse(json['jumlah_produk'].toString()),
       produk: json['produk'] != null ? Produk.fromMap(json['produk']) : null,
       user: json['user'] != null ? User.fromMap(json['user']) : null,
     );
@@ -90,15 +94,18 @@ class Produk {
     this.idKategori,
   });
 
-  factory Produk.fromMap(Map<String, dynamic> json) => Produk(
-        idProduk: json['id_produk'],
-        namaProduk: json['nama_produk'],
-        deskripsiProduk: json['deskripsi_produk'],
-        hargaProduk: json['harga_produk'],
-        stokProduk: json['stok_produk'],
-        gambarProduk: json['gambar_produk'],
-        idKategori: json['id_kategori'],
-      );
+  factory Produk.fromMap(Map<String, dynamic> json) {
+    print('Produk JSON: $json');
+    return Produk(
+      idProduk: int.tryParse(json['id_produk'].toString()),
+      namaProduk: json['nama_produk'],
+      deskripsiProduk: json['deskripsi_produk'],
+      hargaProduk: int.tryParse(json['harga_produk'].toString()),
+      stokProduk: int.tryParse(json['stok_produk'].toString()),
+      gambarProduk: json['gambar_produk'],
+      idKategori: int.tryParse(json['id_kategori'].toString()),
+    );
+  }
 
   Map<String, dynamic> toMap() => {
         "id_produk": idProduk,
@@ -122,15 +129,18 @@ class User {
     this.email,
   });
 
-  factory User.fromMap(Map<String, dynamic> json) => User(
-        idUser: json['id_user'],
-        nama: json['nama'],
-        email: json['email'],
-      );
+  factory User.fromMap(Map<String, dynamic> json) {
+    print('User JSON: $json');
+    return User(
+      idUser: int.tryParse(json['id_user'].toString()),
+      nama: json['nama_user'],
+      email: json['email'],
+    );
+  }
 
   Map<String, dynamic> toMap() => {
         "id_user": idUser,
-        "nama": nama,
+        "nama_user": nama,
         "email": email,
       };
 }

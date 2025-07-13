@@ -29,12 +29,15 @@ class ProdukResponseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ProdukResponseModel.fromMap(Map<String, dynamic> json) =>
-      ProdukResponseModel(
+  factory ProdukResponseModel.fromMap(Map<String, dynamic> json) {
+      print('Produk JSON: $json');
+      return ProdukResponseModel(
         idProduk: json["id_produk"],
         namaProduk: json["nama_produk"],
         deskripsiProduk: json["deskripsi_produk"],
-        hargaProduk: json["harga_produk"],
+        hargaProduk: json["harga_produk"] != null
+            ? int.tryParse(json["harga_produk"].toString())
+            : null,
         stokProduk: json["stok_produk"],
         gambarProduk: json["gambar_produk"],
         idKategori: json["id_kategori"],
@@ -45,6 +48,7 @@ class ProdukResponseModel {
             ? DateTime.tryParse(json["produk_updated_at"])
             : null,
       );
+  }
 
   Map<String, dynamic> toMap() => {
         "id_produk": idProduk,

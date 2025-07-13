@@ -10,13 +10,13 @@ class PemesananRepository {
   PemesananRepository({required this.baseUrl});
 
   Future<String?> _getToken() async {
-    return await storage.read(key: "token");
+    return await storage.read(key: "authToken");
   }
 
   Future<List<PemesananResponseModel>> fetchAllPemesanan() async {
     final token = await _getToken();
     final response = await http.get(
-      Uri.parse('$baseUrl/pemesanan'),
+      Uri.parse('${baseUrl}pemesanan'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -34,7 +34,7 @@ class PemesananRepository {
   Future<List<PemesananResponseModel>> fetchRiwayatPemesananSelesai() async {
     final token = await _getToken();
     final response = await http.get(
-      Uri.parse('$baseUrl/pemesanan/report'),
+      Uri.parse('${baseUrl}pemesanan/report'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -58,7 +58,7 @@ class PemesananRepository {
     final token = await _getToken();
 
     final response = await http.put(
-      Uri.parse('$baseUrl/pemesanan/$idPemesanan'),
+      Uri.parse('${baseUrl}pemesanan/$idPemesanan'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
