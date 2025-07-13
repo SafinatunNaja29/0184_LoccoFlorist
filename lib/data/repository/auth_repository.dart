@@ -20,7 +20,7 @@ class AuthRepository {
     try {
       final response = await _serviceHttpClient.post(
         "api/auth/login",
-        requestModel.toMap(), 
+        requestModel.toMap(),
       );
 
       final jsonResponse = json.decode(response.body);
@@ -28,7 +28,7 @@ class AuthRepository {
       if (response.statusCode == 200) {
         final loginResponse = AuthResponseModel.fromMap(jsonResponse);
 
-        // Simpan token dan role
+        // ✅ Simpan data login ke storage
         await secureStorage.write(
           key: "authToken",
           value: loginResponse.user?.token,
@@ -36,6 +36,14 @@ class AuthRepository {
         await secureStorage.write(
           key: "userRole",
           value: loginResponse.user?.role,
+        );
+        await secureStorage.write(
+          key: "userName",
+          value: loginResponse.user?.namaUser,
+        );
+        await secureStorage.write(
+          key: "userEmail",
+          value: loginResponse.user?.email,
         );
 
         log("Login sukses: ${loginResponse.message}");
