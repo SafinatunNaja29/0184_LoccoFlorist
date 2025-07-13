@@ -70,7 +70,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.pink,
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(

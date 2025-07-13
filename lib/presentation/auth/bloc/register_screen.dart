@@ -23,7 +23,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late final GlobalKey<FormState> _key;
-
   bool isShowPassword = false;
 
   @override
@@ -40,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     namaController.dispose();
     emailController.dispose();
     passwordController.dispose();
-    _key.currentState?.dispose();
     super.dispose();
   }
 
@@ -55,19 +53,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SpaceHeight(100),
+                const SpaceHeight(80),
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 100,
+                ),
+                const SpaceHeight(10),
                 Text(
-                  'DAFTAR AKUN BARU',
+                  'Daftar Akun Baru',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontSize: context.deviceWidth * 0.045,
                     fontWeight: FontWeight.bold,
+                    color: AppColors.tosca,
+                    letterSpacing: 1.2,
+                    fontFamily: 'Montserrat',
                   ),
                 ),
-                const SpaceHeight(30),
+                const SpaceHeight(16),
                 CustomTextField(
                   validator: 'Nama tidak boleh kosong',
                   controller: namaController,
                   label: 'Nama',
+                  hintText: 'Masukkan nama Anda',
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(Icons.person),
@@ -78,6 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   validator: 'Email tidak boleh kosong',
                   controller: emailController,
                   label: 'Email',
+                  hintText: 'Masukkan email Anda',
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(Icons.email),
@@ -88,6 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   validator: 'Password tidak boleh kosong',
                   controller: passwordController,
                   label: 'Password',
+                  hintText: 'Masukkan password Anda',
                   obscureText: !isShowPassword,
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -107,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                const SpaceHeight(50),
+                const SpaceHeight(30),
                 BlocConsumer<RegisterBloc, RegisterState>(
                   listener: (context, state) {
                     if (state is RegisterSuccess) {
@@ -140,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   namaUser: namaController.text,
                                   email: emailController.text,
                                   password: passwordController.text,
-                                  idRole: 2, // default customer
+                                  idRole: 2,
                                 );
                                 context.read<RegisterBloc>().add(
                                   RegisterRequested(requestModel: request),
@@ -148,20 +158,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                             },
                       label: state is RegisterLoading ? 'Memuat...' : 'Daftar',
+                      color: AppColors.purple,
                     );
                   },
                 ),
                 const SpaceHeight(20),
                 Text.rich(
                   TextSpan(
-                    text: 'Sudah memiliki akun? Silahkan ',
+                    text: 'Sudah punya akun? ',
                     style: TextStyle(
                       color: AppColors.grey,
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
+                      fontSize: context.deviceWidth * 0.035,
                     ),
                     children: [
                       TextSpan(
-                        text: 'Login disini!',
+                        text: 'Login di sini!',
                         style: TextStyle(color: AppColors.pinkFanta),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

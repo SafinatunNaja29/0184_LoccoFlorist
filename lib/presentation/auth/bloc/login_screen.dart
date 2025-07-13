@@ -52,19 +52,32 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SpaceHeight(120),
+                const SpaceHeight(80),
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 100,
+                ),
+                const SpaceHeight(10),
+
                 Text(
-                  'Selamat Datang Kembali',
+                  'Tentukan bunga untuk moment terindahmu',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: context.deviceWidth * 0.05,
-                    fontWeight: FontWeight.bold,
+                    fontSize: context.deviceWidth * 0.03,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.tosca,
+                    fontStyle: FontStyle.italic,  
+                    letterSpacing: 1.2,                   
+                    height: 1.4,                          
+                    fontFamily: 'Montserrat',           
                   ),
                 ),
-                const SpaceHeight(30),
+                const SpaceHeight(16),
                 CustomTextField(
                   validator: 'Email tidak boleh kosong',
                   controller: emailController,
                   label: 'Email',
+                  hintText: 'Masukkan email Anda',
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(Icons.email),
@@ -75,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: 'Password tidak boleh kosong',
                   controller: passwordController,
                   label: 'Password',
+                  hintText: 'Masukkan password Anda',
                   obscureText: !isShowPassword,
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -136,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                       label: state is LoginLoading ? 'Memuat...' : 'Masuk',
+                      color: AppColors.purple,
                     );
                   },
                 ),

@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String validator;
   final TextEditingController controller;
   final String label;
+  final String? hintText;
   final Function(String value)? onChanged;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.label,
+    this.hintText, 
     this.onChanged,
     this.obscureText = false,
     this.keyboardType,
@@ -63,7 +65,7 @@ class CustomTextField extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
-            hintText: label,
+            hintText: hintText,
             filled: true,
             fillColor: AppColors.white,
             border: OutlineInputBorder(
