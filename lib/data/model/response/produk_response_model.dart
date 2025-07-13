@@ -9,6 +9,7 @@ class ProdukResponseModel {
   final int? stokProduk;
   final String? gambarProduk;
   final int? idKategori;
+  final String? namaKategori;
   final DateTime? produkCreatedAt;
   final DateTime? produkUpdatedAt;
 
@@ -20,6 +21,7 @@ class ProdukResponseModel {
     this.stokProduk,
     this.gambarProduk,
     this.idKategori,
+    this.namaKategori,
     this.produkCreatedAt,
     this.produkUpdatedAt,
   });
@@ -41,6 +43,7 @@ class ProdukResponseModel {
         stokProduk: json["stok_produk"],
         gambarProduk: json["gambar_produk"],
         idKategori: json["id_kategori"],
+        namaKategori: json["kategori"]?["nama_kategori"],
         produkCreatedAt: json["produk_created_at"] != null
             ? DateTime.tryParse(json["produk_created_at"])
             : null,
@@ -58,6 +61,9 @@ class ProdukResponseModel {
         "stok_produk": stokProduk,
         "gambar_produk": gambarProduk,
         "id_kategori": idKategori,
+        "kategori": {
+          "nama_kategori": namaKategori,
+        },
         "produk_created_at": produkCreatedAt?.toIso8601String(),
         "produk_updated_at": produkUpdatedAt?.toIso8601String(),
       };
