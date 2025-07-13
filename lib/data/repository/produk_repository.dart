@@ -17,6 +17,10 @@ class ProdukRepository {
       final response = await _serviceHttpClient.get("api/produk");
 
       final jsonResponse = json.decode(response.body);
+
+      // DEBUGGING
+      log("Response JSON: $jsonResponse");
+      log("Tipe data jsonResponse['data']: ${jsonResponse['data'].runtimeType}");
       if (response.statusCode == 200) {
         final produkList = (jsonResponse['data'] as List)
             .map((e) => Produk.fromMap(e))
