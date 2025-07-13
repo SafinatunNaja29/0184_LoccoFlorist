@@ -3,11 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loccoproject/data/repository/auth_repository.dart';
 import 'package:loccoproject/data/repository/produk_repository.dart';
 import 'package:loccoproject/data/repository/pemesanan_repository.dart';
+import 'package:loccoproject/data/repository/kategori_repository.dart';
+
 import 'package:loccoproject/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/produk/produk_bloc.dart';
 import 'package:loccoproject/presentation/auth/bloc/pemesanan/pemesanan_bloc.dart';
+import 'package:loccoproject/presentation/auth/bloc/kategori/kategori_bloc.dart';
+
 import 'package:loccoproject/presentation/auth/bloc/login_screen.dart';
+import 'package:loccoproject/presentation/auth/bloc/kategori_screen.dart';
+
 import 'package:loccoproject/service/service_http_client.dart';
 
 void main() {
@@ -22,7 +28,9 @@ class MyApp extends StatelessWidget {
     final serviceHttpClient = ServiceHttpClient();
     final authRepository = AuthRepository(serviceHttpClient);
     final produkRepository = ProdukRepository(serviceHttpClient);
-    final pemesananRepository = PemesananRepository(baseUrl: serviceHttpClient.baseUrl);
+    final kategoriRepository = KategoriRepository(serviceHttpClient);
+    final pemesananRepository =
+        PemesananRepository(baseUrl: serviceHttpClient.baseUrl);
 
     return MultiBlocProvider(
       providers: [
@@ -33,10 +41,18 @@ class MyApp extends StatelessWidget {
           create: (_) => RegisterBloc(authRepository: authRepository),
         ),
         BlocProvider<ProdukBloc>(
-          create: (_) => ProdukBloc(produkRepository: produkRepository)..add(GetAllProduk()),
+          create: (_) => ProdukBloc(produkRepository: produkRepository)
+            ..add(GetAllProduk()),
         ),
         BlocProvider<PemesananBloc>(
-          create: (_) => PemesananBloc(pemesananRepository: pemesananRepository)..add(GetAllPemesanan()),
+          create: (_) =>
+              PemesananBloc(pemesananRepository: pemesananRepository)
+                ..add(GetAllPemesanan()),
+        ),
+        BlocProvider<KategoriBloc>(
+          create: (_) =>
+              KategoriBloc(kategoriRepository: kategoriRepository)
+                ..add(LoadKategoriEvent()),
         ),
       ],
       child: MaterialApp(
@@ -47,6 +63,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const LoginScreen(),
+        routes: {
+          '/kategori': (context) => const KategoriScreen(),
+        },
       ),
     );
   }
