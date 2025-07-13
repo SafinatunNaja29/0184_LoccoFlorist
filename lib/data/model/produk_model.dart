@@ -6,6 +6,7 @@ class Produk {
   final int stokProduk;
   final String gambarProduk;
   final int idKategori;
+  final String? namaKategori; 
   final DateTime produkCreatedAt;
   final DateTime produkUpdatedAt;
 
@@ -17,6 +18,7 @@ class Produk {
     required this.stokProduk,
     required this.gambarProduk,
     required this.idKategori,
+    this.namaKategori, 
     required this.produkCreatedAt,
     required this.produkUpdatedAt,
   });
@@ -30,6 +32,7 @@ class Produk {
       stokProduk: int.tryParse(map['stok_produk'].toString()) ?? 0,
       gambarProduk: map['gambar_produk'],
       idKategori: int.tryParse(map['id_kategori'].toString()) ?? 0,
+      namaKategori: map['nama_kategori'], 
       produkCreatedAt: DateTime.parse(map['produk_created_at']),
       produkUpdatedAt: DateTime.parse(map['produk_updated_at']),
     );
@@ -44,6 +47,7 @@ class Produk {
       'stok_produk': stokProduk,
       'gambar_produk': gambarProduk,
       'id_kategori': idKategori,
+      'nama_kategori': namaKategori, 
       'produk_created_at': produkCreatedAt.toIso8601String(),
       'produk_updated_at': produkUpdatedAt.toIso8601String(),
     };
