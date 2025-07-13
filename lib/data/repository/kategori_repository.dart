@@ -46,4 +46,24 @@ class KategoriRepository {
       return Left("Gagal menghapus kategori");
     }
   }
+
+  Future<Either<String, String>> updateKategori(int id, String nama) async {
+  try {
+    final response = await _client.postWithToken(
+      "api/kategori/$id",
+      {"nama_kategori": nama},
+    );
+
+    final jsonResponse = json.decode(response.body);
+    if (response.statusCode == 200) {
+      return Right(jsonResponse['message'] ?? "Kategori berhasil diupdate");
+    } else {
+      return Left(jsonResponse['message'] ?? "Gagal mengupdate kategori");
+    }
+  } catch (e) {
+    log("Error updateKategori: $e");
+    return Left("Gagal mengupdate kategori");
+  }
+}
+
 }
